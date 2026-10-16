@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M&S - Tyler Siskey and AJ McCarron</title>
+<link rel="stylesheet" href="overlay.css?v=1792160523">
+</head><body>
+<div id="stage">
+<div class="layer" style="left:0;top:0;width:1920px;height:1080px;z-index:2"><img class="full" src="https://cdn.streamelements.com/uploads/01m52h2wd291ez2b0mmycefema.png" alt=""></div>
+<div class="layer" style="left:1400px;top:296px;width:474px;height:562px;z-index:3"><div id="chat"><div id="list"></div></div>
+</div>
+<div class="layer" style="left:0;top:1000px;width:1920px;height:80px;z-index:4"><div id="ticker">
+  <div class="bug"><span class="bug-top">LIVE</span><span class="bug-bot">SCORES</span></div>
+  <div class="track-wrap"><div class="track" id="track"></div></div>
+</div>
+</div>
+<div class="layer" style="left:0;top:0;width:1920px;height:1080px;z-index:5;pointer-events:none"><img class="full" src="https://cdn.streamelements.com/uploads/01m52h7gprvfj59yhbt16fptxe.webp" alt=""></div>
+</div>
+
+<script>
+// Scale the 1920x1080 stage to whatever size the app gives the page
+(function(){
+  var st = document.getElementById('stage');
+  function fit(){ var s = Math.min(innerWidth/1920, innerHeight/1080) || 1;
+    st.style.webkitTransform = st.style.transform = 'scale(' + s + ')';
+    st.style.left = ((innerWidth - 1920*s)/2) + 'px'; st.style.top = ((innerHeight - 1080*s)/2) + 'px'; }
+  addEventListener('resize', fit); fit();
+})();
+// Settings: defaults below, any can be overridden in the link, e.g. ?ytkey=...&ytchannel=UC...
+var Q = new URLSearchParams(location.search);
+var TICKER = {"showMode": "all", "show_nfl": true, "show_cfb": true, "show_nba": true, "show_cbb": true, "show_mlb": true, "emptyText": "No live games right now \u2014 check back soon", "refreshSeconds": 30, "speed": 90, "barHeight": 54, "showLogos": true, "brandText": "LIVE", "barColor": "rgba(14,16,22,0.94)", "accentColor": "#d50a0a", "bugTextColor": "#ffffff", "leagueColor": "#ffffff", "leagueTextColor": "#0e1016", "textColor": "#ffffff", "winColor": "#ffd34d", "liveColor": "#ff4b4b"};
+var CHAT = {"twitchChannel": "mccreadyandsiskey", "youtubeApiKey": "", "youtubeChannelId": "", "youtubeVideoId": "", "youtubePollSeconds": 10, "youtubeRetryMinutes": 10, "maxMessages": 25, "hideAfter": 0, "hideCommands": true, "ignoredUsers": "nightbot, streamelements, streamlabs, moobot, fossabot", "testMessages": false, "fontSize": 22, "gap": 8, "textColor": "#ffffff", "bubbleColor": "rgba(255,255,255,0.06)"};
+if (Q.get('speed')) TICKER.speed = Number(Q.get('speed'));
+if (Q.get('twitch')) CHAT.twitchChannel = Q.get('twitch');
+if (Q.get('ytkey')) CHAT.youtubeApiKey = Q.get('ytkey');
+if (Q.get('ytchannel')) CHAT.youtubeChannelId = Q.get('ytchannel');
+if (Q.get('ytvideo')) CHAT.youtubeVideoId = Q.get('ytvideo');
+if (Q.get('test') === '1') CHAT.testMessages = true;
+</script>
+<script src="ticker.js?v=1792160523"></script>
+<script>dispatchEvent(new CustomEvent('tickerLoad',{detail:{fieldData:TICKER}}));</script>
+<script src="chat.js?v=1792160523"></script>
+<script>dispatchEvent(new CustomEvent('chatLoad',{detail:{fieldData:CHAT}}));</script>
+</body></html>
